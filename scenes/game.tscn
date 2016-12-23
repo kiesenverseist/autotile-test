@@ -1,5 +1,88 @@
-[gd_scene format=1]
+[gd_scene load_steps=6 format=1]
+
+[ext_resource path="res://images/world/level.png" type="Texture" id=1]
+[ext_resource path="res://scripts/player.gd" type="Script" id=2]
+[ext_resource path="res://images/player/player.png" type="Texture" id=3]
+
+[sub_resource type="ConvexPolygonShape2D" id=1]
+
+custom_solver_bias = 0.0
+points = Vector2Array( -0.0631614, 1350.8, 2143.83, 1348.82, 2144, 1601.37, 1.3459, 1608.63 )
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
+
+custom_solver_bias = 0.0
+points = Vector2Array( 5.16467, -15.3164, 5.23132, 14.7273, -6.78229, 14.5884, -7.02386, -15.3164 )
 
 [node name="game" type="Node"]
+
+[node name="level" type="StaticBody2D" parent="."]
+
+transform/pos = Vector2( -0.358452, -1.44651 )
+transform/scale = Vector2( 0.477446, 0.374657 )
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+__meta__ = { "_edit_group_":true }
+
+[node name="image" type="Sprite" parent="level"]
+
+transform/scale = Vector2( 1, 1 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="collision" type="CollisionPolygon2D" parent="level"]
+
+transform/scale = Vector2( 1, 1 )
+build_mode = 0
+polygon = Vector2Array( -0.0631614, 1350.8, 2143.83, 1348.82, 2144, 1601.37, 1.3459, 1608.63 )
+shape_range = Vector2( 0, 0 )
+trigger = false
+
+[node name="player" type="RigidBody2D" parent="."]
+
+transform/pos = Vector2( 490.081, 420.362 )
+input/pickable = false
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+mode = 2
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
+script/script = ExtResource( 2 )
+__meta__ = { "_edit_group_":true }
+
+[node name="Sprite" type="Sprite" parent="player"]
+
+transform/pos = Vector2( 0, -0.0852356 )
+texture = ExtResource( 3 )
+
+[node name="collision" type="CollisionPolygon2D" parent="player"]
+
+build_mode = 0
+polygon = Vector2Array( -7.02386, -15.3164, -6.78229, 14.5884, 5.23132, 14.7273, 5.16467, -15.3164 )
+shape_range = Vector2( 0, 0 )
+trigger = false
 
 
