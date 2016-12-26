@@ -8,6 +8,8 @@ func _ready():
 
 func _fixed_process(delta):
 	
+	edit_tile()
+	
 	move = Vector2(0,0)
 	
 	if Input.is_action_pressed("right"):
@@ -19,4 +21,9 @@ func _fixed_process(delta):
 	move += get_pos()
 	
 	set_pos(move)
-	
+
+func edit_tile():
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		get_node("../TileMap").set_tile(get_global_mouse_pos(), "template")
+	elif Input.is_mouse_button_pressed(BUTTON_RIGHT):
+		get_node("../TileMap").set_tile(get_global_mouse_pos(), "remove")

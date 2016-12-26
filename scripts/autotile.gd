@@ -6,7 +6,7 @@ var tw = 100
 var th = 100
 
 #information is tabulated as follows:
-# surrounding information : 
+#surrounding information : shape , x-flip, y-flip, transpose
 
 var map_info = {
 	0  : [0, false, false, false],
@@ -29,9 +29,33 @@ var map_info = {
 
 func _ready():
 	update_all()
+	set_process(true)
 
-func _settings_changed():
+func _draw():
 	update_all()
+
+func set_tile(pos, type):
+	var mpos = world_to_map(pos)
+	var base = map_info[0]
+	
+	if type == "remove":
+		set_cellv(mpos, -1, false, false, false)
+	elif type == "template":
+		set_cellv(mpos, base[0], base[1], base[2], base[3])
+	
+	update_tiles(mpos.x, mpos.y)
+
+func update_tiles(i, j):
+	update_tile(i, j)
+	update_tile(i, j + 1)
+	update_tile(i, j - 1)
+	update_tile(i + 1, j)
+	update_tile(i + 1, j + 1)
+	update_tile(i + 1, j - 1)
+	update_tile(i - 1, j)
+	update_tile(i - 1, j + 1)
+	update_tile(i - 1, j - 1)
+	
 
 func update_all():
 	for i in range(tw):
@@ -40,8 +64,9 @@ func update_all():
 				update_tile(i, j)
 
 func update_tile(i, j):
-	var tid = get_surroundings(i, j)
-	set_tile(i, j, tid)
+	if get_cell(i, j) != -1:
+		var tid = get_surroundings(i, j)
+		set_tile_shape(i, j, tid)
 
 func get_surroundings(i, j):
 	var tid = 0
@@ -53,7 +78,7 @@ func get_surroundings(i, j):
 	
 	return tid
 
-func set_tile(i, j, tid):
+func set_tile_shape(i, j, tid):
 	
 	var tile = map_info[tid]
 	
